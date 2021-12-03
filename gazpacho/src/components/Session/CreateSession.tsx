@@ -1,21 +1,20 @@
 import { useState, ChangeEvent } from 'react';
+import { useForm } from 'react-hook-form'
 import { SessionGoals } from './SessionGoals';
 import { ISession } from './SessionTypes';
 
 
 function CreateSession() {
     const [state, setState] = useState<ISession>({ day: new Date(), clientName: "", goals: [] });
-    function handleClientNameChange(propName: string) {
-        return (e: ChangeEvent<HTMLInputElement>) => {
-            setState({ ...state, [propName]: e.currentTarget.value });
-        }
-    }
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onsubmit = (data: any) => console.log(data);
+
     function handleGoalsChange(goals: string[]) {
         setState({ ...state, goals });
     }
 
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <fieldset>
                 <input
                     type="date"
@@ -26,14 +25,13 @@ function CreateSession() {
             </fieldset>
             <fieldset>
                 <input
-                    id="client"
                     type="text"
-                    value={state.clientName}
-                    onChange={handleClientNameChange("clientName")}
-                    minLength={3}
-                    maxLength={50}
+                    {
+                    ...register("clientName", { required: true, maxLength: 50, minLength: 3 })
+                    }
                     aria-label="client name"
                 />
+                {errors.exampleRequired && <span>This field is required</span>}
             </fieldset>
             <SessionGoals goals={state.goals} onChange={handleGoalsChange} />
 
