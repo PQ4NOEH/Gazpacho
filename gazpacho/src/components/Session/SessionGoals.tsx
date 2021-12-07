@@ -55,7 +55,7 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
             />
             <div>
                 {
-                    state.forEach(kv => {
+                    state.map(kv => {
                         return (
                             <div key={kv.key}>
                                 <label>{kv.value}</label>
