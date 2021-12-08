@@ -3,8 +3,10 @@ import { SessionGoals } from "./SessionGoals"
 
 const initialData: string[] = [];
 const handleOnChange = (goals: string[]) => { };
-it("should be render", () => {
-    render(<SessionGoals goals={initialData} onChange={handleOnChange} />)
 
-    expect(screen.getByRole("button", { name: "add goal" })).toBeInTheDocument();
-})
+describe("Session goals", () => {
+    it("should render", () => {
+        render(<SessionGoals goals={initialData} onChange={handleOnChange} />)
+        expect(screen.getByRole("button", { name: "add goal" })).toBeInTheDocument();
+    });
+});
