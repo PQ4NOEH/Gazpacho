@@ -21,6 +21,7 @@ function MapGoalsToKeyValue(goals: string[]): KeyValue[] {
 
 export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
     const [state, setState] = useState<KeyValue[]>(MapGoalsToKeyValue(goals));
+    const [newStateError, setNewStateError] = useState({ minLength: false, maxLength: false });
     const [newGoal, setNewGoal] = useState<string>("");
     function handleNewGoalChange(e: ChangeEvent<HTMLInputElement>) {
         setNewGoal(e.currentTarget.value);
@@ -29,8 +30,17 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
         setState(MapGoalsToKeyValue(goals));
     }, [goals])
     function handleAddGoal() {
-        const goals = [...state.map(kv => kv.value), newGoal];
-        onChange(goals);
+        if (newGoal.length < 3) {
+            setNewStateError({ minLength: true, maxLength: false });
+        } else if (newGoal.length > 50) {
+            setNewStateError({ minLength: false, maxLength: true });
+        } else {
+            const goals = [...state.map(kv => kv.value), newGoal];
+            setNewGoal("");
+            setNewStateError({ minLength: false, maxLength: false });
+            onChange(goals);
+        }
+
     }
     function handleDeleteGoal(item: KeyValue) {
         const goals = state.map(kv => kv.value).filter(g => g !== item.value);
@@ -41,6 +51,7 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
         <fieldset>
             <input
                 type="text"
+                id="newGoal"
                 value={newGoal}
                 onChange={handleNewGoalChange}
                 minLength={3}
@@ -48,11 +59,12 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
                 aria-label="new goal text"
             />
             <button
-                id="addNewGoal"
                 value="Add"
                 aria-label="add goal"
                 onClick={handleAddGoal}
             />
+            {newStateError.minLength && <p aria-describedby="newGoal" aria-label="new goal error" role="alert">New goal must have more than two characters</p>}
+            {newStateError.maxLength && <p aria-describedby="newGoal" aria-label="new goal error" role="alert">New goal must have less than fifty characters</p>}
             <ul aria-label="session goals">
                 {
                     state.map(kv => {
