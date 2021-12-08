@@ -53,18 +53,18 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
                 aria-label="add goal"
                 onClick={handleAddGoal}
             />
-            <div>
+            <ul aria-label="session goals">
                 {
                     state.map(kv => {
                         return (
-                            <div key={kv.key}>
-                                <label>{kv.value}</label>
+                            <li key={kv.key}>
+                                <span>{kv.value}</span>
                                 <input type="button" onClick={() => handleDeleteGoal(kv)} aria-label="remove goal" />
-                            </div>
+                            </li>
                         )
                     })
                 }
-            </div>
+            </ul>
 
 
         </fieldset>
