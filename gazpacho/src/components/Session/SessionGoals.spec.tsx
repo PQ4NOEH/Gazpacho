@@ -1,4 +1,5 @@
 import { fireEvent, logRoles, render, screen, waitFor } from "@testing-library/react"
+import { randomString } from "../../utils/stringUtils";
 import { SessionGoals } from "./SessionGoals"
 
 
@@ -31,6 +32,7 @@ describe("Session goals", () => {
         const goals = handleOnChange.mock.calls[0][0];
         expect(goals).toHaveLength(1);
         expect(goals[0]).toEqual("A new goal");
+        expect(screen.getByRole("textbox", { name: "new goal text" })).toHaveFocus();
     });
     it("Should take away goals", async () => {
         const initialData = [
@@ -52,7 +54,7 @@ describe("Session goals", () => {
             "third goal"
         ]);
     });
-    it("Should not ad empty goals", async () => {
+    it("Should not add empty goals", async () => {
         const initialData: string[] = [];
         const handleOnChange = jest.fn();
         render(<SessionGoals goals={initialData} onChange={handleOnChange} />);
@@ -62,7 +64,7 @@ describe("Session goals", () => {
         expect(clientNameError.innerHTML).toEqual("New goal must have more than two characters");
     })
 
-    it("Should not ad goals with more than fifty characters", async () => {
+    it("Should not add goals with more than fifty characters", async () => {
         const initialData: string[] = [];
         const handleOnChange = jest.fn();
         render(<SessionGoals goals={initialData} onChange={handleOnChange} />);
@@ -70,7 +72,7 @@ describe("Session goals", () => {
             screen.getByRole("textbox", { name: "new goal text" }),
             {
                 target: {
-                    value: "ssssssssssssssssssssssssssssssssssssssssssssssssssss"
+                    value: randomString(51)
                 }
             }
         );

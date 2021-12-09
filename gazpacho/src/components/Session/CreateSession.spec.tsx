@@ -1,5 +1,6 @@
 import { unmountComponentAtNode } from 'react-dom';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { randomString } from '../../utils/stringUtils';
 
 import CreateSession from './CreateSession';
 
@@ -9,7 +10,9 @@ describe("Session goals", () => {
     it("renders the Session", () => {
         const { container } = render(<CreateSession />);
         expect(container.querySelector("input[type='date']")).toBeInTheDocument();
-        expect(screen.getByRole("textbox", { name: "client name" })).toBeInTheDocument();
+        const clientNameInput = screen.getByRole("textbox", { name: "client name" });
+        expect(clientNameInput).toBeInTheDocument();
+        expect(clientNameInput).toHaveFocus();
         expect(screen.getByRole("button", { name: "create session" })).toBeInTheDocument();
     });
     it("validate empty client name", async () => {
@@ -22,7 +25,7 @@ describe("Session goals", () => {
         render(<CreateSession />);
         fireEvent.input(
             screen.getByRole("textbox", { name: "client name" }),
-            { target: { value: "s" } }
+            { target: { value: randomString(1) } }
         );
         fireEvent.submit(screen.getByRole("button", { name: "create session" }));
         const clientNameError = await waitFor(() => screen.getByRole("alert", { name: "client name error" }));
@@ -32,7 +35,7 @@ describe("Session goals", () => {
         render(<CreateSession />);
         fireEvent.input(
             screen.getByRole("textbox", { name: "client name" }),
-            { target: { value: "ssssssssssssssssssssssssssssssssssssssssssssssssssss" } }
+            { target: { value: randomString(51) } }
         );
         fireEvent.submit(screen.getByRole("button", { name: "create session" }));
         const clientNameError = await waitFor(() => screen.getByRole("alert", { name: "client name error" }));

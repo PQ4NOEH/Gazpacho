@@ -37,6 +37,7 @@
     ]
   },
   "devDependencies": {
+    "@peculiar/webcrypto": "^1.2.3",
     "@types/react": "^17.0.37"
   }
 }

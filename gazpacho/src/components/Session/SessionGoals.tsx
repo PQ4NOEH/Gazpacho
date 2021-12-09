@@ -1,5 +1,5 @@
-import { useState, useEffect, ChangeEvent } from 'react';
-import { GenerateHashCode } from '../../utils/stringUtils';
+import { useState, useEffect, ChangeEvent, useRef } from 'react';
+import { generateHashCode } from '../../utils/stringUtils';
 
 interface SessionGoalsProps {
     goals: string[],
@@ -13,18 +13,20 @@ interface KeyValue {
 function MapGoalsToKeyValue(goals: string[]): KeyValue[] {
     return goals.map(goal => {
         return {
-            key: GenerateHashCode(goal),
+            key: generateHashCode(goal),
             value: goal
         }
     });
 }
 
 export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
+    const newGoalRef = useRef<HTMLInputElement>(null);
     const [state, setState] = useState<KeyValue[]>(MapGoalsToKeyValue(goals));
     const [newStateError, setNewStateError] = useState({ minLength: false, maxLength: false });
     const [newGoal, setNewGoal] = useState<string>("");
     function handleNewGoalChange(e: ChangeEvent<HTMLInputElement>) {
         setNewGoal(e.currentTarget.value);
+        e.stopPropagation();
     }
     useEffect(() => {
         setState(MapGoalsToKeyValue(goals));
@@ -39,8 +41,8 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
             setNewGoal("");
             setNewStateError({ minLength: false, maxLength: false });
             onChange(goals);
+            newGoalRef.current?.focus()
         }
-
     }
     function handleDeleteGoal(item: KeyValue) {
         const goals = state.map(kv => kv.value).filter(g => g !== item.value);
@@ -49,6 +51,7 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
 
     return (
         <fieldset>
+            <legend>Session goals</legend>
             <input
                 type="text"
                 id="newGoal"
@@ -57,6 +60,7 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
                 minLength={3}
                 maxLength={50}
                 aria-label="new goal text"
+                ref={newGoalRef}
             />
             <button
                 value="Add"

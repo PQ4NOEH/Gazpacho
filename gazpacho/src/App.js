@@ -1,26 +1,24 @@
-import logo from "./logo.svg";
-import "./App.css";
 import CreateSession from "./components/Session/CreateSession";
+import SessionsSummary from "./components/SessionsSummary/SessionsSummary";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <CreateSession />
-    </div>
+    <>
+      <div className="App">
+        <header>
+          <h1>Gazpacho</h1>
+        </header>
+      </div>
+      <div
+        style={{ display: "inline-block", width: "25%", verticalAlign: "top" }}
+      >
+        <h2>Sessions</h2>
+        <SessionsSummary />
+      </div>
+      <div style={{ display: "inline-block", width: "75%" }}>
+        <CreateSession />
+      </div>
+    </>
   );
 }
 
