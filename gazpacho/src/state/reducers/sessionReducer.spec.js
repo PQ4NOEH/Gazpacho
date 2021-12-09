@@ -42,7 +42,6 @@ describe("sessionReducer", () => {
     });
 
     expect(Object.keys(actual)).toHaveLength(1);
-    expect(actual.hasOwnProperty(dateKey)).toBeTruthy();
     expect(actual[dateKey]).toEqual(
       expect.arrayContaining([newSession, oldSessionObject])
     );
