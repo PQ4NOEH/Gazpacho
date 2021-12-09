@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { SessionGoals } from './SessionGoals';
 import { ISession } from '../../types/SessionTypes';
 import { generateGuid } from '../../utils/guidUtils';
+import { toIsoDate } from '../../utils/dateUtils';
 
 
 function CreateSession() {
@@ -23,7 +24,7 @@ function CreateSession() {
                     <input
                         type="date"
                         disabled
-                        value={state.day.toISOString().split("T")[0]}
+                        value={toIsoDate(state.day)}
                         aria-label="session date"
                     />
                 </fieldset>

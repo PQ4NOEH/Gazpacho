@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 import { ISession } from '../../types/SessionTypes';
+import { toIsoDate } from '../../utils/dateUtils';
 import { generateGuid } from '../../utils/guidUtils';
 import SessionSummaryItem from './SessionSummaryItem';
 
 export default function SessionsSummary() {
-    const [sessionsDay, setSessionsDay] = useState(new Date().toISOString().split("T")[0]);
+    const [sessionsDay, setSessionsDay] = useState(toIsoDate(new Date()));
     const dataMock: ISession[] = [
         { id: generateGuid(), clientName: "Tracasa", day: new Date(), goals: [] },
         { id: generateGuid(), clientName: "VW", day: new Date(), goals: [] },
