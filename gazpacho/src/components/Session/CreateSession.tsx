@@ -4,12 +4,22 @@ import { SessionGoals } from './SessionGoals';
 import { ISession } from '../../types/SessionTypes';
 import { generateGuid } from '../../utils/guidUtils';
 import { toIsoDate } from '../../utils/dateUtils';
+import { useDispatch } from 'react-redux';
+import sessionActions from '../../state/actions/SessionActions';
+import ErrorMessage from '../common/ErrorMessage';
 
 
 function CreateSession() {
+    const dispatch = useDispatch();
     const [state, setState] = useState<ISession>({ id: generateGuid(), day: new Date(), clientName: "", goals: [] });
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onsubmit = (data: any) => console.log(data);
+    const onsubmit = (data: any) => {
+        const action = sessionActions.AddSession({
+            ...state,
+            clientName: data.clientName
+        });
+        dispatch(action);
+    }
 
     function handleGoalsChange(goals: string[]) {
         setState({ ...state, goals });
@@ -41,30 +51,27 @@ function CreateSession() {
                     />
                     {
                         errors.clientName?.type === "required" &&
-                        <p
-                            aria-describedby="clientName"
-                            aria-label="client name error"
-                            role="alert">
-                            Client name is required
-                        </p>
+                        <ErrorMessage
+                            ariaDescribedby="clientName"
+                            ariaLabel="client name error"
+                            message="Client name is required"
+                        />
                     }
                     {
                         errors.clientName?.type === "maxLength" &&
-                        <p
-                            aria-describedby="clientName"
-                            aria-label="client name error"
-                            role="alert">
-                            Client name can not have more than 50 characters
-                        </p>
+                        <ErrorMessage
+                            ariaDescribedby="clientName"
+                            ariaLabel="client name error"
+                            message="Client name can not have more than 50 characters"
+                        />
                     }
                     {
                         errors.clientName?.type === "minLength" &&
-                        <p
-                            aria-describedby="clientName"
-                            aria-label="client name error"
-                            role="alert">
-                            Client name must have more than 2 characters
-                        </p>
+                        <ErrorMessage
+                            ariaDescribedby="clientName"
+                            ariaLabel="client name error"
+                            message="Client name must have more than 2 characters"
+                        />
                     }
                 </fieldset>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent, useRef } from 'react';
+import { useState, useEffect, ChangeEvent, useRef, MouseEventHandler } from 'react';
 import { generateHashCode } from '../../utils/stringUtils';
 
 interface SessionGoalsProps {
@@ -31,7 +31,7 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
     useEffect(() => {
         setState(MapGoalsToKeyValue(goals));
     }, [goals])
-    function handleAddGoal() {
+    function handleAddGoal(e: React.MouseEvent<HTMLElement>) {
         if (newGoal.length < 3) {
             setNewStateError({ minLength: true, maxLength: false });
         } else if (newGoal.length > 50) {
@@ -41,8 +41,10 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
             setNewGoal("");
             setNewStateError({ minLength: false, maxLength: false });
             onChange(goals);
-            newGoalRef.current?.focus()
+            newGoalRef.current?.focus();
         }
+        e.stopPropagation();
+        e.preventDefault();
     }
     function handleDeleteGoal(item: KeyValue) {
         const goals = state.map(kv => kv.value).filter(g => g !== item.value);

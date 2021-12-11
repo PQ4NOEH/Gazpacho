@@ -1,18 +1,20 @@
 import { ChangeEvent, useState } from 'react';
+import { useSelector } from 'react-redux'
+import RootState from '../../types/rootState';
 import { ISession } from '../../types/SessionTypes';
-import { toIsoDate } from '../../utils/dateUtils';
-import { generateGuid } from '../../utils/guidUtils';
+import { toIsoDate, toIsoDateWithoutHypens } from '../../utils/dateUtils';
 import SessionSummaryItem from './SessionSummaryItem';
 
 export default function SessionsSummary() {
     const [sessionsDay, setSessionsDay] = useState(toIsoDate(new Date()));
-    const dataMock: ISession[] = [
-        { id: generateGuid(), clientName: "Tracasa", day: new Date(), goals: [] },
-        { id: generateGuid(), clientName: "VW", day: new Date(), goals: [] },
-        { id: generateGuid(), clientName: "Elektra", day: new Date(), goals: [] },
-    ]
+    const sessions = useSelector<RootState, Record<string, ISession[]>>(state => state.sessionReducer);
+
     function handleSessionsDayChange(e: ChangeEvent<HTMLInputElement>) {
         setSessionsDay(e.target.value)
+    }
+    function currentDaySessions(): ISession[] {
+        const key = toIsoDateWithoutHypens(new Date(sessionsDay));
+        return sessions[key] || [];
     }
     function handleViewSessionDetail(session: ISession) {
     }
@@ -29,7 +31,7 @@ export default function SessionsSummary() {
             />
             <ul>
                 {
-                    dataMock.map(s => {
+                    currentDaySessions().map(s => {
                         return <SessionSummaryItem
                             key={s.id}
                             item={s}

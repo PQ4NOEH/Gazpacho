@@ -1,12 +1,4 @@
-// import { createStore } from "redux";
+import { createStore } from "redux";
+import reducer from "./reducers";
 
-// export const store = createStore({
-//   reducer: {
-//     posts: postsReducer,
-//     comments: commentsReducer,
-//     users: usersReducer,
-//   },
-// });
-export function mock() {
-  return null;
-}
+export default createStore(reducer);
