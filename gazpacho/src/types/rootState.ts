@@ -1,5 +1,5 @@
-import { ISession } from "./SessionTypes";
+import { ISession } from './SessionTypes'
 
 export default interface RootState {
-  sessionReducer: Record<string, ISession[]>;
+    sessionReducer: Record<string, ISession[]>
 }
