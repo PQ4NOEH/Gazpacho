@@ -1,6 +1,6 @@
 export interface ISession {
-    id: string
-    day: Date
-    clientName: string
-    goals: string[]
+  id: string;
+  day: Date;
+  clientName: string;
+  goals: string[];
 }
