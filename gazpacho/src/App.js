@@ -3,33 +3,19 @@ import SessionsSummary from "./components/SessionsSummary/SessionsSummary";
 
 function App() {
   return (
-    <div
-      style={{
-        width: "75%",
-        margin: "2em auto",
-        backgroundColor: "cadetblue",
-        padding: "2em",
-        borderRadius: "5px",
-      }}
-    >
-      <div className="App">
-        <header>
-          <h1>Gazpacho</h1>
-        </header>
-      </div>
-      <div
-        style={{
-          display: "inline-block",
-          width: "25%",
-          verticalAlign: "top",
-        }}
-      >
-        <h2>Sessions</h2>
-        <SessionsSummary />
-      </div>
-      <div style={{ display: "inline-block", width: "75%" }}>
-        <CreateSession />
-      </div>
+    <div>
+      <header className="bg-emerald-400 p-4">
+        <h1 className="text-rose-600 text-3xl">Gazpacho</h1>
+      </header>
+      <section className="mx-8 p-8 flex flex-row">
+        <div className="basis-1/4">
+          <h2 className="text-rose-600 text-2xl">Sessions</h2>
+          <SessionsSummary />
+        </div>
+        <div className="basis-3/4">
+          <CreateSession />
+        </div>
+      </section>
     </div>
   );
 }

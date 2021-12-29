@@ -7,6 +7,7 @@ import { toIsoDate } from '../../utils/dateUtils';
 import { useDispatch } from 'react-redux';
 import sessionActions from '../../state/actions/SessionActions';
 import ErrorMessage from '../common/ErrorMessage';
+import Fieldset from '../common/Fieldset';
 
 
 function CreateSession() {
@@ -27,19 +28,17 @@ function CreateSession() {
 
     return (
         <div>
-            <h2>New session</h2>
+            <h2 className="text-rose-600 text-2xl">New session</h2>
             <form onSubmit={handleSubmit(onsubmit)}>
-                <fieldset>
-                    <legend>Date</legend>
+                <Fieldset legend="Date">
                     <input
                         type="date"
                         disabled
                         value={toIsoDate(state.day)}
                         aria-label="session date"
                     />
-                </fieldset>
-                <fieldset>
-                    <legend>Client Name</legend>
+                </Fieldset>
+                <Fieldset legend="Client Name">
                     <input
                         id="clientName"
                         type="text"
@@ -73,7 +72,7 @@ function CreateSession() {
                             message="Client name must have more than 2 characters"
                         />
                     }
-                </fieldset>
+                </Fieldset>
 
                 <SessionGoals
                     goals={state.goals}

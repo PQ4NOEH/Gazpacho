@@ -1,5 +1,6 @@
-import { useState, useEffect, ChangeEvent, useRef, MouseEventHandler } from 'react';
+import { useState, useEffect, ChangeEvent, useRef } from 'react';
 import { generateHashCode } from '../../utils/stringUtils';
+import Fieldset from '../common/Fieldset';
 
 interface SessionGoalsProps {
     goals: string[],
@@ -52,8 +53,8 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
     }
 
     return (
-        <fieldset>
-            <legend>Session goals</legend>
+
+        <Fieldset legend="Goals">
             <input
                 type="text"
                 id="newGoal"
@@ -83,8 +84,6 @@ export function SessionGoals({ goals, onChange }: SessionGoalsProps) {
                     })
                 }
             </ul>
-
-
-        </fieldset>
+        </Fieldset>
     )
 }
